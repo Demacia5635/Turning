@@ -100,6 +100,7 @@ public class TestTurns extends CommandBase {
       writer.close();
     } catch (Exception e1) {
       System.out.println(e1);
+      System.out.println("");
     }
   }
 
