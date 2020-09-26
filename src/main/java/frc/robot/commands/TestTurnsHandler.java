@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class TestTurnsHandler extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
+  private double runCount = 0;
   private double minLeft;
   private double minRight;
   private double maxLeft;
@@ -40,29 +41,33 @@ public class TestTurnsHandler extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentLeft = 0;
-    currentRight = 0;
     minLeft = SmartDashboard.getNumber("Left Min Range", 0);
     minRight = SmartDashboard.getNumber("Right Min Range", 0);
     maxLeft = SmartDashboard.getNumber("Left Max Range", 1);
     maxRight = SmartDashboard.getNumber("Right Max Range", 1);
     skips = SmartDashboard.getNumber("Skips", 0.01);
+    currentLeft = minLeft;
+    currentRight = minRight;
+    SmartDashboard.putNumber("Run Count", runCount);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if(!command.isScheduled()){
-      if(currentLeft + skips > maxLeft)
-      isReversed = !isReversed;
+      SmartDashboard.putNumber("Run Count", ++runCount);
       SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
       SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
       command.schedule();
+
       if(currentRight + skips > maxRight){
         currentRight = minRight;
         currentLeft += skips;
       }
-      currentRight += skips;
+      if(isReversed){
+        currentRight += skips;
+      }
+      isReversed = !isReversed;
     }
   }
 
@@ -74,6 +79,6 @@ public class TestTurnsHandler extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return currentLeft + skips > maxLeft;
   }
 }

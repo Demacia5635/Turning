@@ -79,29 +79,36 @@ public class TestTurns extends CommandBase {
     double rightVoltage = m_chassis.getRightVoltage();
     double leftCurrent = m_chassis.getLeftCurrent();
     double rightCurrent = m_chassis.getRightCurrent();
-
-    try {
-      String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
-      JSONArray data = new JSONArray(text);
-      JSONObject run = new JSONObject();
-      JSONObject statistics = new JSONObject();
-      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm:ss");
-      LocalDateTime now = LocalDateTime.now();
-      statistics.put("L Current", leftCurrent);
-      statistics.put("R Current", rightCurrent);
-      statistics.put("L Voltage", leftVoltage);
-      statistics.put("R Voltage", rightVoltage);
-      statistics.put("L Speed", leftSpeed);
-      statistics.put("R Speed", rightSpeed);
-      run.put(dtf.format(now), statistics);
-      data.put(run);
-      FileWriter writer = new FileWriter("Statistics.json");
-      writer.write(data.toString(4));
-      writer.close();
-    } catch (Exception e1) {
-      System.out.println(e1);
-      System.out.println("");
-    }
+    SmartDashboard.putNumber("L Current", leftCurrent);
+    SmartDashboard.putNumber("R Current", rightCurrent);
+    SmartDashboard.putNumber("L Voltage", leftVoltage);
+    SmartDashboard.putNumber("R Voltage", rightVoltage);
+    SmartDashboard.putNumber("L Speed", leftSpeed);
+    SmartDashboard.putNumber("R Speed", rightSpeed);
+    // try {
+    //   String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
+    //   JSONArray data = new JSONArray(text);
+    //   JSONObject run = new JSONObject();
+    //   JSONObject statistics = new JSONObject();
+    //   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm:ss");
+    //   LocalDateTime now = LocalDateTime.now();
+    //   statistics.put("Left Power", leftPower);
+    //   statistics.put("Right Power", rightPower);
+    //   statistics.put("L Current", leftCurrent);
+    //   statistics.put("R Current", rightCurrent);
+    //   statistics.put("L Voltage", leftVoltage);
+    //   statistics.put("R Voltage", rightVoltage);
+    //   statistics.put("L Speed", leftSpeed);
+    //   statistics.put("R Speed", rightSpeed);
+    //   run.put(dtf.format(now), statistics);
+    //   data.put(run);
+    //   FileWriter writer = new FileWriter("Statistics.json");
+    //   writer.write(data.toString(4));
+    //   writer.close();
+    // } catch (Exception e1) {
+    //   System.out.println(e1);
+    //   System.out.println("");
+    // }
   }
 
   // Returns true when the command should end.
