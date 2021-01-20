@@ -20,13 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.io.JsonEOFException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONWriter;
 
 /**
  * An example command that uses an example subsystem.
@@ -39,6 +35,7 @@ public class TestTurns extends CommandBase {
   private double radius = 0;
   private double leftDistance = 0;
   private double rightDistance = 0;
+  private double count = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -58,16 +55,21 @@ public class TestTurns extends CommandBase {
     m_chassis.resetRightEncoderPosition();
     leftPower = SmartDashboard.getNumber("Left Power", 0);
     rightPower = SmartDashboard.getNumber("Right Power", 0);
-    double[] distances = m_chassis.calculateDistances(leftPower, rightPower);
-    radius = distances[0];
-    leftDistance = distances[1];
-    rightDistance = distances[2];
+    //double[] distances = m_chassis.calculateDistances(leftPower, rightPower);
+    //radius = distances[0];
+    leftDistance = Constants.distance; //distances[1];
+    rightDistance = Constants.distance;//distances[2];
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_chassis.setPower(leftPower, rightPower);
+    double leftSpeed = m_chassis.getLeftSpeed();
+    double rightSpeed = m_chassis.getRightSpeed();
+    if(leftSpeed == 0 && rightSpeed == 0){
+      count += 1;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -85,6 +87,7 @@ public class TestTurns extends CommandBase {
     SmartDashboard.putNumber("R Voltage", rightVoltage);
     SmartDashboard.putNumber("L Speed", leftSpeed);
     SmartDashboard.putNumber("R Speed", rightSpeed);
+    wait(1000);
     // try {
     //   String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
     //   JSONArray data = new JSONArray(text);
@@ -114,7 +117,19 @@ public class TestTurns extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return leftDistance <= m_chassis.getLeftEncoderPosition() / Constants.pulsePerMeter &&
-    rightDistance <= m_chassis.getRightEncoderPosition() / Constants.pulsePerMeter;
+    // / Constants.pulsePerMeter
+    return (leftDistance <= m_chassis.getLeftEncoderPosition()  &&
+    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 20);
+  }
+  public static void wait(int ms)
+  {
+    try
+    {
+        Thread.sleep(ms);
+    }
+    catch(InterruptedException ex)
+    {
+        Thread.currentThread().interrupt();
+    }
   }
 }
