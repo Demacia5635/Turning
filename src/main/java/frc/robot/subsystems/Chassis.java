@@ -13,8 +13,8 @@ import frc.robot.Constants;
 import frc.robot.utils.GroupOfMotors;
 
 public class Chassis extends SubsystemBase {
-  GroupOfMotors left = new GroupOfMotors(0,1);
-  GroupOfMotors right = new GroupOfMotors(2,3);
+  GroupOfMotors left = new GroupOfMotors(3,4);
+  GroupOfMotors right = new GroupOfMotors(2,1);
   /**
    * Creates a new ExampleSubsystem.
    */
