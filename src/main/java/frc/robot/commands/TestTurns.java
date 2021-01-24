@@ -87,10 +87,6 @@ public class TestTurns extends CommandBase {
     SmartDashboard.putNumber("R Voltage", rightVoltage);
     SmartDashboard.putNumber("L Speed", leftSpeed);
     SmartDashboard.putNumber("R Speed", rightSpeed);
-    int i = 0;
-    while(i <= 100000){
-    i += 1;
-    }
     //wait(1000);
     // try {
     //   String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
