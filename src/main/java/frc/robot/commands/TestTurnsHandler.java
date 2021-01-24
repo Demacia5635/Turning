@@ -55,7 +55,8 @@ public class TestTurnsHandler extends CommandBase {
   @Override
   public void execute() {
     if(!command.isScheduled()){
-      SmartDashboard.putNumber("Run Count", ++runCount);
+      runCount += 1;
+      SmartDashboard.putNumber("Run Count", runCount);
       SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
       SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
       command.schedule();
