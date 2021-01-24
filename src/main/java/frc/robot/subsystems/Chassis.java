@@ -28,8 +28,8 @@ public class Chassis extends SubsystemBase {
   }
 
   public void setPower(double left, double right){
-    this.left.setPower(left);
-    this.right.setPower(right);
+    this.left.setPower(-left);
+    this.right.setPower(-right);
   }
 
   public void displayPower(double left, double right){
@@ -38,7 +38,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public double getLeftEncoderPosition(){
-    return left.getEncoderPosition();
+    return -left.getEncoderPosition();
   }
 
   public double getRightEncoderPosition(){
