@@ -87,7 +87,7 @@ public class TestTurns extends CommandBase {
     SmartDashboard.putNumber("R Voltage", rightVoltage);
     SmartDashboard.putNumber("L Speed", leftSpeed);
     SmartDashboard.putNumber("R Speed", rightSpeed);
-    wait(1000);
+    //wait(1000);
     // try {
     //   String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
     //   JSONArray data = new JSONArray(text);
@@ -119,7 +119,7 @@ public class TestTurns extends CommandBase {
   public boolean isFinished() {
     // / Constants.pulsePerMeter
     return (leftDistance <= m_chassis.getLeftEncoderPosition()  &&
-    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 20);
+    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 2000);
   }
   public static void wait(int ms)
   {
