@@ -118,7 +118,7 @@ public class TestTurns extends CommandBase {
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return (leftDistance <= m_chassis.getLeftEncoderPosition()  &&
+    return (leftDistance <= m_chassis.getLeftEncoderPosition()  ||
     rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 400);
   }
   public static void wait(int ms)
