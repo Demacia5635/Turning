@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
-
+import java.lang.Math; 
 import com.fasterxml.jackson.core.io.JsonEOFException;
 
 /**
@@ -118,8 +118,8 @@ public class TestTurns extends CommandBase {
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return (leftDistance <= m_chassis.getLeftEncoderPosition()  ||
-    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 400);
+    return (leftDistance <= Math.abs(m_chassis.getLeftEncoderPosition())  ||
+    rightDistance <= Math.abs(m_chassis.getRightEncoderPosition())) || (count >= 400);
   }
   public static void wait(int ms)
   {
