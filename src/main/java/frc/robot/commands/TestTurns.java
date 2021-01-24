@@ -119,7 +119,7 @@ public class TestTurns extends CommandBase {
   public boolean isFinished() {
     // / Constants.pulsePerMeter
     return (leftDistance <= m_chassis.getLeftEncoderPosition()  &&
-    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 2000);
+    rightDistance <= m_chassis.getRightEncoderPosition()) || (count >= 400);
   }
   public static void wait(int ms)
   {
