@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * An example command that uses an example subsystem.
@@ -26,7 +27,7 @@ public class TestTurnsHandler extends CommandBase {
   private double currentRight;
   private boolean isReversed = false;
 
-  private final TestTurns command;
+  private final CommandBase command;
 
   /**
    * Creates a new ExampleCommand.
@@ -35,7 +36,7 @@ public class TestTurnsHandler extends CommandBase {
    */
   public TestTurnsHandler(TestTurns command) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.command = command;
+    this.command = command.andThen(new WaitCommand(1));
   }
 
   // Called when the command is initially scheduled.

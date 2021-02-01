@@ -75,6 +75,7 @@ public class TestTurns extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_chassis.setPower(0, 0);
     double leftSpeed = m_chassis.getLeftSpeed();
     double rightSpeed = m_chassis.getRightSpeed();
     double leftVoltage = m_chassis.getLeftVoltage();
