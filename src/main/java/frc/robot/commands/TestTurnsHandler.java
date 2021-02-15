@@ -50,7 +50,9 @@ public class TestTurnsHandler extends CommandBase {
     currentLeft = minLeft;
     currentRight = minRight;
     SmartDashboard.putNumber("Run Count", runCount);
-    SmartDashboard.putBoolean("isRunning", True);
+    SmartDashboard.putBoolean("isRunning", true);
+    SmartDashboard.putBoolean("reset", false);
+
 
   }
 
@@ -83,7 +85,7 @@ public class TestTurnsHandler extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean a = SmartDashboard.getBoolean("isRunning", True);
+    boolean a = SmartDashboard.getBoolean("isRunning", true);
     return currentLeft + skips > maxLeft || !a;
 ;
   }
