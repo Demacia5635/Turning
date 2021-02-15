@@ -70,7 +70,7 @@ public class TestTurns extends CommandBase {
       rightPower = 0;
       SmartDashboard.putNumber("Left Power", 0);
       SmartDashboard.putNumber("Right Power", 0);
-
+      SmartDashboard.putBoolean("reset", false);
     }
     m_chassis.setPower(leftPower, rightPower);
     double leftSpeed = m_chassis.getLeftSpeed();
