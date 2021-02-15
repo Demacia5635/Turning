@@ -64,6 +64,14 @@ public class TestTurns extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    reset = SmartDashboard.getBoolean("reset", false);
+    if(reset == true){
+      leftPower = 0;
+      rightPower = 0;
+      SmartDashboard.putNumber("Left Power", 0);
+      SmartDashboard.putNumber("Right Power", 0);
+
+    }
     m_chassis.setPower(leftPower, rightPower);
     double leftSpeed = m_chassis.getLeftSpeed();
     double rightSpeed = m_chassis.getRightSpeed();
