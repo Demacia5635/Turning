@@ -50,6 +50,8 @@ public class TestTurnsHandler extends CommandBase {
     currentLeft = minLeft;
     currentRight = minRight;
     SmartDashboard.putNumber("Run Count", runCount);
+    SmartDashboard.putBoolean("isRunning", True);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -81,6 +83,8 @@ public class TestTurnsHandler extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return currentLeft + skips > maxLeft;
+    boolean a = SmartDashboard.getBoolean("isRunning", True);
+    return currentLeft + skips > maxLeft || !a;
+;
   }
 }
