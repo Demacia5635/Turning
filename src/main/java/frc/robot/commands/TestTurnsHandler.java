@@ -86,7 +86,6 @@ public class TestTurnsHandler extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean a = SmartDashboard.getBoolean("isRunning", true);
-    return currentLeft + skips > maxLeft || !a;
-;
+    return currentLeft >= maxLeft || !a;
   }
 }

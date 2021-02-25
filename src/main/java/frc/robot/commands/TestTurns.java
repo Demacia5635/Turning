@@ -64,7 +64,7 @@ public class TestTurns extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    reset = SmartDashboard.getBoolean("reset", false);
+    boolean reset = SmartDashboard.getBoolean("reset", false);
     if(reset == true){
       leftPower = 0;
       rightPower = 0;
@@ -128,7 +128,7 @@ public class TestTurns extends CommandBase {
   public boolean isFinished() {
     // / Constants.pulsePerMeter
     return (leftDistance <= Math.abs(m_chassis.getLeftEncoderPosition())  ||
-    rightDistance <= Math.abs(m_chassis.getRightEncoderPosition())) || (count >= 400);
+    rightDistance <= Math.abs(m_chassis.getRightEncoderPosition()));
   }
   public static void wait(int ms)
   {
