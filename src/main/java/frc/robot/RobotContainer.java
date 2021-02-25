@@ -72,6 +72,12 @@ public class RobotContainer {
     SmartDashboard.putData("Activate", new InstantCommand(() ->{
       turnHandlerCommand.schedule();
     }));
+    SmartDashboard.putData("Reset", new InstantCommand(() ->{
+      turnHandlerCommand.reset();
+    }));
+    SmartDashboard.putData("Pause", new InstantCommand(() ->{
+      turnHandlerCommand.pause();
+    }));
   }
 
 

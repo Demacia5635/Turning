@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 
 /**
  * An example command that uses an example subsystem.
@@ -26,6 +27,7 @@ public class TestTurnsHandler extends CommandBase {
   private double currentLeft;
   private double currentRight;
   private boolean isReversed = false;
+  public boolean paused = false;
 
   private final CommandBase command;
 
@@ -38,7 +40,16 @@ public class TestTurnsHandler extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.command = new WaitCommand(1).andThen(command);
   }
+   public void reset() {
+    SmartDashboard.putNumber("Left Power", 0);
+    SmartDashboard.putNumber("Right Power", 0);
+    this.command.cancel();
+    this.cancel();
+  }
 
+  public void pause() {
+    paused = !paused;
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -51,7 +62,6 @@ public class TestTurnsHandler extends CommandBase {
     currentRight = minRight;
     SmartDashboard.putNumber("Run Count", runCount);
     SmartDashboard.putBoolean("isRunning", true);
-    SmartDashboard.putBoolean("reset", false);
 
 
   }
@@ -59,21 +69,23 @@ public class TestTurnsHandler extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!command.isScheduled()){
-      runCount += 1;
-      SmartDashboard.putNumber("Run Count", runCount);
-      SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
-      SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
-      command.schedule();
+    if(!paused){
+      if(!command.isScheduled()){
+        runCount += 1;
+        SmartDashboard.putNumber("Run Count", runCount);
+        SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
+        SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
+        command.schedule();
 
-      if(currentRight + skips > maxRight){
-        currentRight = minRight;
-        currentLeft += skips;
+        if(currentRight + skips > maxRight){
+          currentRight = minRight;
+          currentLeft += skips;
+        }
+        if(isReversed){
+          currentRight += skips;
+        }
+        isReversed = !isReversed;
       }
-      if(isReversed){
-        currentRight += skips;
-      }
-      isReversed = !isReversed;
     }
   }
 
@@ -86,6 +98,6 @@ public class TestTurnsHandler extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean a = SmartDashboard.getBoolean("isRunning", true);
-    return currentLeft == maxLeft || !a;
+    return currentLeft > maxLeft || !a;
   }
 }
