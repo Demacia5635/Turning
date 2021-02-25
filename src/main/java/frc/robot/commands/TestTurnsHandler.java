@@ -78,7 +78,7 @@ public class TestTurnsHandler extends CommandBase {
         SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
         command.schedule();
 
-        if(currentRight > maxRight){
+        if(currentRight > maxRight && isReversed){
           currentRight = minRight;
           currentLeft += skips;
         }
