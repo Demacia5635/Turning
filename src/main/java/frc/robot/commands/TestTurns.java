@@ -36,6 +36,8 @@ public class TestTurns extends CommandBase {
   private double leftDistance = 0;
   private double rightDistance = 0;
   private double count = 0;
+  private double startPosLeft;
+  private double startPosRight;
 
   /**
    * Creates a new ExampleCommand.
@@ -51,8 +53,8 @@ public class TestTurns extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_chassis.resetLeftEncoderPosition();
-    m_chassis.resetRightEncoderPosition();
+    startPosLeft = m_chassis.getLeftEncoderPosition();
+    startPosRight = m_chassis.getRightEncoderPosition();
     leftPower = SmartDashboard.getNumber("Left Power", 0);
     rightPower = SmartDashboard.getNumber("Right Power", 0);
     //double[] distances = m_chassis.calculateDistances(leftPower, rightPower);
@@ -127,8 +129,8 @@ public class TestTurns extends CommandBase {
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return (leftDistance <= Math.abs(m_chassis.getLeftEncoderPosition())  ||
-    rightDistance <= Math.abs(m_chassis.getRightEncoderPosition()));
+    return (leftDistance <= Math.abs(startPosLeft - m_chassis.getLeftEncoderPosition())  ||
+    rightDistance <= Math.abs(startPosRight - m_chassis.getRightEncoderPosition()));
   }
   public static void wait(int ms)
   {
