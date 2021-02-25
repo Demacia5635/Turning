@@ -36,7 +36,7 @@ public class TestTurnsHandler extends CommandBase {
    */
   public TestTurnsHandler(TestTurns command) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.command = command.andThen(new WaitCommand(1));
+    this.command = new WaitCommand(1).andThen(command);
   }
 
   // Called when the command is initially scheduled.
