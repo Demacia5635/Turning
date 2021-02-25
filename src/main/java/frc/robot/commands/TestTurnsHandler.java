@@ -49,6 +49,7 @@ public class TestTurnsHandler extends CommandBase {
 
   public void pause() {
     paused = !paused;
+    this.command.cancel();
   }
   // Called when the command is initially scheduled.
   @Override
