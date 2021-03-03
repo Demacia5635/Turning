@@ -58,7 +58,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public double getRightSpeed(){
-    return right.getSpeed();
+    return -right.getSpeed();
   }
 
   public double getLeftVoltage(){
