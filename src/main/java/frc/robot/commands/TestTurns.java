@@ -30,14 +30,15 @@ import com.fasterxml.jackson.core.io.JsonEOFException;
 public class TestTurns extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Chassis m_chassis;
-  private double leftPower = 0;
-  private double rightPower = 0;
-  private double radius = 0;
-  private double leftDistance = 0;
-  private double rightDistance = 0;
+  public double leftPower = 0;
+  public double rightPower = 0;
+  public double runCount = 0;
+  //private double radius = 0;
+  //private double leftDistance = 0;
+  //private double rightDistance = 0;
   private double count = 0;
-  private double startPosLeft;
-  private double startPosRight;
+  //private double startPosLeft;
+  //private double startPosRight;
 
   /**
    * Creates a new ExampleCommand.
@@ -53,14 +54,15 @@ public class TestTurns extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startPosLeft = m_chassis.getLeftEncoderPosition();
-    startPosRight = m_chassis.getRightEncoderPosition();
-    leftPower = SmartDashboard.getNumber("Left Power", 0);
-    rightPower = SmartDashboard.getNumber("Right Power", 0);
+    count = 0;
+    // startPosLeft = m_chassis.getLeftEncoderPosition();
+    // startPosRight = m_chassis.getRightEncoderPosition();
+    // leftPower = SmartDashboard.getNumber("Left Power", 0);
+    // rightPower = SmartDashboard.getNumber("Right Power", 0);
     //double[] distances = m_chassis.calculateDistances(leftPower, rightPower);
     //radius = distances[0];
-    leftDistance = Constants.distance; //distances[1];
-    rightDistance = Constants.distance;//distances[2];
+    // leftDistance = Constants.distance; //distances[1];
+    // rightDistance = Constants.distance;//distances[2];
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -70,22 +72,26 @@ public class TestTurns extends CommandBase {
     if(reset == true){
       leftPower = 0;
       rightPower = 0;
-      SmartDashboard.putNumber("Left Power", 0);
-      SmartDashboard.putNumber("Right Power", 0);
+      m_chassis.setPower(0,0);
+      // SmartDashboard.putNumber("Left Power", 0);
+      // SmartDashboard.putNumber("Right Power", 0);
       SmartDashboard.putBoolean("reset", false);
-    }
-    m_chassis.setPower(leftPower, rightPower);
-    double leftSpeed = m_chassis.getLeftSpeed();
-    double rightSpeed = m_chassis.getRightSpeed();
-    if(leftSpeed == 0 && rightSpeed == 0){
-      count += 1;
+    } else {
+      count++;
+      if (count == 50) {
+        m_chassis.setPower(leftPower, rightPower);
+      }
+      // double leftSpeed = m_chassis.getLeftSpeed();
+      // double rightSpeed = m_chassis.getRightSpeed();
+      // if(leftSpeed == 0 && rightSpeed == 0){
+      //   count += 1;
+      // }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_chassis.setPower(0, 0);
     double leftSpeed = m_chassis.getLeftSpeed();
     double rightSpeed = m_chassis.getRightSpeed();
     double leftVoltage = m_chassis.getLeftVoltage();
@@ -98,49 +104,16 @@ public class TestTurns extends CommandBase {
     SmartDashboard.putNumber("R Voltage", rightVoltage);
     SmartDashboard.putNumber("L Speed", leftSpeed);
     SmartDashboard.putNumber("R Speed", rightSpeed);
-    //wait(1000);
-    // try {
-    //   String text = new String(Files.readAllBytes(Paths.get("Statistics.json")), StandardCharsets.UTF_8);
-    //   JSONArray data = new JSONArray(text);
-    //   JSONObject run = new JSONObject();
-    //   JSONObject statistics = new JSONObject();
-    //   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm:ss");
-    //   LocalDateTime now = LocalDateTime.now();
-    //   statistics.put("Left Power", leftPower);
-    //   statistics.put("Right Power", rightPower);
-    //   statistics.put("L Current", leftCurrent);
-    //   statistics.put("R Current", rightCurrent);
-    //   statistics.put("L Voltage", leftVoltage);
-    //   statistics.put("R Voltage", rightVoltage);
-    //   statistics.put("L Speed", leftSpeed);
-    //   statistics.put("R Speed", rightSpeed);
-    //   run.put(dtf.format(now), statistics);
-    //   data.put(run);
-    //   FileWriter writer = new FileWriter("Statistics.json");
-    //   writer.write(data.toString(4));
-    //   writer.close();
-    // } catch (Exception e1) {
-    //   System.out.println(e1);
-    //   System.out.println("");
-    // }
+    SmartDashboard.putNumber("Run Count", runCount);
+    m_chassis.setPower(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return (leftDistance <= Math.abs(startPosLeft - m_chassis.getLeftEncoderPosition())  ||
-    rightDistance <= Math.abs(startPosRight - m_chassis.getRightEncoderPosition()));
-  }
-  public static void wait(int ms)
-  {
-    try
-    {
-        Thread.sleep(ms);
-    }
-    catch(InterruptedException ex)
-    {
-        Thread.currentThread().interrupt();
-    }
+    return count > 150;
+    // return (leftDistance <= Math.abs(startPosLeft - m_chassis.getLeftEncoderPosition())  ||
+    // rightDistance <= Math.abs(startPosRight - m_chassis.getRightEncoderPosition()));
   }
 }

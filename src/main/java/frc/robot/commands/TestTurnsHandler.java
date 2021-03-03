@@ -18,7 +18,7 @@ import frc.robot.Constants;
 public class TestTurnsHandler extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  private double runCount = 0;
+  // private double runCount = 0;
   private double minLeft;
   private double minRight;
   private double maxLeft;
@@ -29,7 +29,7 @@ public class TestTurnsHandler extends CommandBase {
   private boolean isReversed = false;
   public boolean paused = false;
 
-  private final CommandBase command;
+  private final TestTurns command;
 
   /**
    * Creates a new ExampleCommand.
@@ -38,11 +38,13 @@ public class TestTurnsHandler extends CommandBase {
    */
   public TestTurnsHandler(TestTurns command) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.command = new WaitCommand(1).andThen(command);
+    this.command = command;
   }
    public void reset() {
-    SmartDashboard.putNumber("Left Power", 0);
-    SmartDashboard.putNumber("Right Power", 0);
+    command.leftPower = 0;
+    command.rightPower = 0;
+    // SmartDashboard.putNumber("Left Power", 0);
+    // SmartDashboard.putNumber("Right Power", 0);
     this.command.cancel();
     this.cancel();
   }
@@ -61,7 +63,7 @@ public class TestTurnsHandler extends CommandBase {
     skips = SmartDashboard.getNumber("Skips", 0.01);
     currentLeft = minLeft;
     currentRight = minRight;
-    SmartDashboard.putNumber("Run Count", runCount);
+    // SmartDashboard.putNumber("Run Count", runCount);
     SmartDashboard.putBoolean("isRunning", true);
 
 
@@ -72,10 +74,13 @@ public class TestTurnsHandler extends CommandBase {
   public void execute() {
     if(!paused){
       if(!command.isScheduled()){
-        runCount += 1;
-        SmartDashboard.putNumber("Run Count", runCount);
-        SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
-        SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
+        // runCount += 1;
+        // SmartDashboard.putNumber("Run Count", runCount);
+        // SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
+        // SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
+        command.leftPower = currentLeft * (isReversed ? -1 : 1);
+        command.rightPower = currentRight * (isReversed ? -1 : 1);
+        command.runCount++;
         command.schedule();
 
         if(currentRight > maxRight && isReversed){
