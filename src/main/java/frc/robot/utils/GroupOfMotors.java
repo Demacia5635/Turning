@@ -41,7 +41,7 @@ public class GroupOfMotors {
 
     //Returns the speed in Meter/Second
     public double getSpeed(){
-        return (lead.getSelectedSensorVelocity() / 10) / Constants.pulsePerMeter;
+        return lead.getSelectedSensorVelocity() / Constants.pulsePerMeter * 10;
     }
 
     public double getVoltage(){
