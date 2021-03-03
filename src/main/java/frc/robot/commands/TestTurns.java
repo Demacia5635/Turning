@@ -78,7 +78,7 @@ public class TestTurns extends CommandBase {
       SmartDashboard.putBoolean("reset", false);
     } else {
       count++;
-      if (count == 50) {
+      if (count == 30) {
         m_chassis.setPower(leftPower, rightPower);
       }
       // double leftSpeed = m_chassis.getLeftSpeed();
@@ -98,6 +98,8 @@ public class TestTurns extends CommandBase {
     double rightVoltage = m_chassis.getRightVoltage();
     double leftCurrent = m_chassis.getLeftCurrent();
     double rightCurrent = m_chassis.getRightCurrent();
+    SmartDashboard.putNumber("Left Power", leftPower);
+    SmartDashboard.putNumber("Right Power", rightPower);
     SmartDashboard.putNumber("L Current", leftCurrent);
     SmartDashboard.putNumber("R Current", rightCurrent);
     SmartDashboard.putNumber("L Voltage", leftVoltage);
@@ -112,7 +114,7 @@ public class TestTurns extends CommandBase {
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return count > 150;
+    return count > 100;
     // return (leftDistance <= Math.abs(startPosLeft - m_chassis.getLeftEncoderPosition())  ||
     // rightDistance <= Math.abs(startPosRight - m_chassis.getRightEncoderPosition()));
   }

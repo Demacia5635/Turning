@@ -65,8 +65,6 @@ public class TestTurnsHandler extends CommandBase {
     currentRight = minRight;
     // SmartDashboard.putNumber("Run Count", runCount);
     SmartDashboard.putBoolean("isRunning", true);
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -78,19 +76,18 @@ public class TestTurnsHandler extends CommandBase {
         // SmartDashboard.putNumber("Run Count", runCount);
         // SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
         // SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
+        if(currentRight > maxRight && isReversed){
+          currentRight = minRight;
+          currentLeft += skips;
+        } else if(isReversed){
+          currentRight += skips;
+        }
+        isReversed = !isReversed;
+
         command.leftPower = currentLeft * (isReversed ? -1 : 1);
         command.rightPower = currentRight * (isReversed ? -1 : 1);
         command.runCount++;
         command.schedule();
-
-        if(currentRight > maxRight && isReversed){
-          currentRight = minRight;
-          currentLeft += skips;
-        }
-        if(isReversed){
-          currentRight += skips;
-        }
-        isReversed = !isReversed;
       }
     }
   }
