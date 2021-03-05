@@ -8,21 +8,23 @@
 package frc.robot.utils;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import frc.robot.Constants;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class GroupOfMotors {
-    private TalonSRX lead;
-    private TalonSRX[] followers;
+    private TalonFX lead;
+    private TalonFX[] followers;
     
     public GroupOfMotors(int...talons){
-        lead = new TalonSRX(talons[0]);
-        followers = new TalonSRX[talons.length -1];
+        lead = new TalonFX(talons[0]);
+        lead.setNeutralMode(NeutralMode.Brake);
+        followers = new TalonFX[talons.length -1];
         for(int i = 0; i <followers.length; i++)
         {
-            followers[i] = new TalonSRX(talons[i + 1]);
+            followers[i] = new TalonFX(talons[i + 1]);
+            followers[i].setNeutralMode(NeutralMode.Brake);
             followers[i].follow(lead);
         }
     }
@@ -50,5 +52,12 @@ public class GroupOfMotors {
 
     public double getCurrent(){
         return lead.getSupplyCurrent();
+    }
+
+    public void invert(boolean isInverted){
+        lead.setInverted(isInverted);
+        for (TalonFX talonFX : followers) {
+            talonFX.setInverted(isInverted);
+        }
     }
 }

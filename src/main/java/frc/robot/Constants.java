@@ -20,6 +20,6 @@ public final class Constants {
 
     public static final double wheelDiameter = 0.1524;
     public static final double encoderPulsePerRotation = 800.0;
-    public static final double pulsePerMeter = encoderPulsePerRotation / (wheelDiameter * Math.PI);
+    public static final double pulsePerMeter = 44700;/*encoderPulsePerRotation / (wheelDiameter * Math.PI);*/
     public static final double distance = 4;
 }

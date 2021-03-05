@@ -78,7 +78,7 @@ public class TestTurns extends CommandBase {
       SmartDashboard.putBoolean("reset", false);
     } else {
       count++;
-      if (count == 30) {
+      if (count == 50) {
         m_chassis.setPower(leftPower, rightPower);
       }
       // double leftSpeed = m_chassis.getLeftSpeed();
@@ -107,14 +107,14 @@ public class TestTurns extends CommandBase {
     SmartDashboard.putNumber("L Speed", leftSpeed);
     SmartDashboard.putNumber("R Speed", rightSpeed);
     SmartDashboard.putNumber("Run Count", runCount);
-    m_chassis.setPower(0, 0);
+    MoveSlow.end = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // / Constants.pulsePerMeter
-    return count > 100;
+    return count > 200;
     // return (leftDistance <= Math.abs(startPosLeft - m_chassis.getLeftEncoderPosition())  ||
     // rightDistance <= Math.abs(startPosRight - m_chassis.getRightEncoderPosition()));
   }

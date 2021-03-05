@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MoveSlow;
 import frc.robot.commands.PowerDrive;
 import frc.robot.commands.TestTurns;
 import frc.robot.commands.TestTurnsHandler;
@@ -34,8 +35,9 @@ public class RobotContainer {
 
   private final PowerDrive m_teleopCommand = new PowerDrive(m_chassis, controller);
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final TestTurns turnCommand = new TestTurns(m_chassis);
-  private final TestTurnsHandler turnHandlerCommand = new TestTurnsHandler(turnCommand);
+  private final MoveSlow slowcommand = new MoveSlow(m_chassis);
+  public final TestTurns turnCommand = new TestTurns(m_chassis);
+  private final TestTurnsHandler turnHandlerCommand = new TestTurnsHandler(turnCommand, slowcommand);
 
 
 

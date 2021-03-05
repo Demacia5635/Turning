@@ -7,23 +7,29 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class ExampleCommand extends CommandBase {
+public class MoveSlow extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
+  private final Chassis m_chassis;
+  public double rPower;
+  public double lPower;
+  public static boolean end = false;
+  private double skips = 0.03;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public MoveSlow(Chassis subsystem) {
+    m_chassis = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -36,16 +42,22 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    lPower-=skips*Math.signum(lPower);
+    rPower-=skips*Math.signum(rPower);
+    if (Math.abs(lPower) < skips) lPower = 0;
+    if (Math.abs(rPower) < skips) rPower = 0;
+    m_chassis.setPower(lPower, rPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    end = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (Math.abs(lPower) <= 0 && Math.abs(rPower) <= 0);
   }
 }
