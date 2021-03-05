@@ -11,6 +11,8 @@ import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * An example command that uses an example subsystem.
@@ -45,8 +47,11 @@ public class PowerDrive extends CommandBase {
   public void execute() {
     double left = controller.getY(Hand.kLeft);
     double right = controller.getY(Hand.kRight);
-    m_subsystem.setPower(left, right);
-    m_subsystem.displayPower(left, right);
+    SmartDashboard.putNumber("right speed", right);
+    SmartDashboard.putNumber("left speed", left);
+    m_subsystem.setPower(SmartDashboard.getNumber("left pw", 0), SmartDashboard.getNumber("right pw", 0));
+    m_subsystem.displayPower(SmartDashboard.getNumber("left pw", 0), SmartDashboard.getNumber("right pw", 0));
+
   }
 
   // Called once the command ends or is interrupted.
