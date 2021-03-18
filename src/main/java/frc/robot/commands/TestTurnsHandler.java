@@ -30,15 +30,18 @@ public class TestTurnsHandler extends CommandBase {
   public boolean paused = false;
 
   private final TestTurns command;
+  private final MoveSlow slowCommand;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TestTurnsHandler(TestTurns command) {
+  public TestTurnsHandler(TestTurns command, MoveSlow slowcommand) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.command = command;
+    this.slowCommand = slowcommand;
+    
   }
    public void reset() {
     command.leftPower = 0;
@@ -72,22 +75,30 @@ public class TestTurnsHandler extends CommandBase {
   public void execute() {
     if(!paused){
       if(!command.isScheduled()){
-        // runCount += 1;
-        // SmartDashboard.putNumber("Run Count", runCount);
-        // SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
-        // SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
-        if(currentRight > maxRight && isReversed){
-          currentRight = minRight;
-          currentLeft += skips;
-        } else if(isReversed){
-          currentRight += skips;
-        }
-        isReversed = !isReversed;
+        if (!slowCommand.isScheduled()) {
+          if (!MoveSlow.end) {
+            slowCommand.lPower = command.leftPower;
+            slowCommand.rPower = command.rightPower;
+            slowCommand.schedule(); 
+          } else {
+            // runCount += 1;
+          // SmartDashboard.putNumber("Run Count", runCount);
+          // SmartDashboard.putNumber("Left Power", currentLeft * (isReversed ? -1 : 1));
+          // SmartDashboard.putNumber("Right Power", currentRight * (isReversed ? -1 : 1));
+          if(currentRight > maxRight && isReversed){
+            currentRight = minRight;
+            currentLeft += skips;
+          } else if(isReversed){
+            currentRight += skips;
+          }
+          isReversed = !isReversed;
 
-        command.leftPower = currentLeft * (isReversed ? -1 : 1);
-        command.rightPower = currentRight * (isReversed ? -1 : 1);
-        command.runCount++;
-        command.schedule();
+          command.leftPower = currentLeft * (isReversed ? -1 : 1);
+          command.rightPower = currentRight * (isReversed ? -1 : 1);
+          command.runCount++;
+          command.schedule();
+          }
+        }
       }
     }
   }

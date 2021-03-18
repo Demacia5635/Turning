@@ -14,12 +14,12 @@ import frc.robot.utils.GroupOfMotors;
 
 public class Chassis extends SubsystemBase {
   GroupOfMotors left = new GroupOfMotors(3,4);
-  GroupOfMotors right = new GroupOfMotors(2,1);
+  GroupOfMotors right = new GroupOfMotors(1,2);
   /**
    * Creates a new ExampleSubsystem.
    */
   public Chassis() {
-
+    right.invert(true);
   }
 
   @Override
@@ -28,8 +28,8 @@ public class Chassis extends SubsystemBase {
   }
 
   public void setPower(double left, double right){
-    this.left.setPower(-left);
-    this.right.setPower(-right);
+    this.left.setPower(left);
+    this.right.setPower(right);
   }
 
   public void displayPower(double left, double right){
@@ -38,7 +38,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public double getLeftEncoderPosition(){
-    return -left.getEncoderPosition();
+    return left.getEncoderPosition();
   }
 
   public double getRightEncoderPosition(){
